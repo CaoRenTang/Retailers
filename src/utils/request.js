@@ -39,5 +39,17 @@ request.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+/**
+ * @param url
+ * @param method
+ * @param data
+ */
+const myRequest = (url, method, data) => {
+  return request({
+    url,
+    method,
+    [method === 'get' ? 'params' : 'data']: data
+  })
+}
 // 3.导出request实例
-export default request
+export default myRequest
