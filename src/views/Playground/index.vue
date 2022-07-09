@@ -1,7 +1,6 @@
 <template>
-  <div>
-    组件测试
-  </div>
+  <!-- 骨架组件测试 -->
+  <XtxSkeleton width="100" height="30" bg="blue"/>
 </template>
 
 <script>

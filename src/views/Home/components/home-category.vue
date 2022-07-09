@@ -1,33 +1,57 @@
 <template>
   <div class="home-category">
-    <ul class="menu">
-      <!-- 一级 -->
-      <li v-for="item in list" :key="item.id">
-        <RouterLink to="/">{{ item.name }}</RouterLink>
-        <!-- 二级 -->
-        <template v-if="item.children">
-          <RouterLink v-for="sub in item.children" :key="sub.id" to="/">
-            {{ sub.name }}
-          </RouterLink>
-        </template>
-        <!-- 弹层 -->
-        <div class="layer">
-          <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
-          <ul>
-            <li v-for="good in item.goods" :key="good.id">
-              <RouterLink to="/">
-                <img :src="good.picture" alt="">
-                <div class="info">
-                  <p class="name ellipsis-2">{{ good.name }}</p>
-                  <p class="desc ellipsis">{{ good.desc }}</p>
-                  <p class="price"><i>¥</i>{{ good.price }}</p>
-                </div>
-              </RouterLink>
-            </li>
-          </ul>
-        </div>
-      </li>
-    </ul>
+    <!-- 正式数据渲染 -->
+    <template v-if="list.length > 0">
+      <ul class="menu">
+        <!-- 一级 -->
+        <li v-for="item in list" :key="item.id">
+          <RouterLink to="/">{{ item.name }}</RouterLink>
+          <!-- 二级 -->
+          <template v-if="item.children.length > 0">
+            <RouterLink v-for="sub in item.children" :key="sub.id" to="/">
+              {{ sub.name }}
+            </RouterLink>
+          </template>
+          <!-- 弹层 -->
+          <div class="layer">
+            <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
+            <ul>
+              <li v-for="good in item.goods" :key="good.id">
+                <RouterLink to="/">
+                  <img :src="good.picture" alt="">
+                  <div class="info">
+                    <p class="name ellipsis-2">{{ good.name }}</p>
+                    <p class="desc ellipsis">{{ good.desc }}</p>
+                    <p class="price"><i>¥</i>{{ good.price }}</p>
+                  </div>
+                </RouterLink>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </template>
+    <!-- 骨架屏占位 -->
+    <template v-else>
+      <ul class="menu">
+        <li v-for="i in 9" :key="i">
+          <XtxSkeleton
+            :width="40"
+            :height="20"
+            style="margin-right: 5px"
+            bg="rgba(255,255,255,0.2)"
+          />
+          <XtxSkeleton
+            :width="50"
+            :height="20"
+            bg="rgba(255,255,255,0.2)"
+            style="margin-right: 5px"
+          />
+          <XtxSkeleton :width="50" :height="20" bg="rgba(255,255,255,0.2)"/>
+        </li>
+      </ul>
+    </template>
+
   </div>
 </template>
 
