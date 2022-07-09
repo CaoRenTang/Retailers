@@ -21,8 +21,7 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { computed, onMounted } from 'vue'
+import { useCate } from '@/hooks/index.js'
 
 export default {
   name: 'AppHeaderNav',
@@ -35,14 +34,7 @@ export default {
   // }
   // vue3.x实现
   setup () {
-    // store === this.$store
-    const store = useStore()
-    onMounted(() => {
-      store.dispatch('cate/getCateList')
-    })
-    const list = computed(() => {
-      return store.state.cate.list
-    })
+    const { list } = useCate()
     return { list }
   }
 }
