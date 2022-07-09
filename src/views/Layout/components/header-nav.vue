@@ -3,35 +3,47 @@
     <li class="home">
       <RouterLink to="/">首页</RouterLink>
     </li>
-    <li>
-      <a href="#">美食</a>
+    <li v-for="item in list" :key="item.id">
+      <a href="#">{{ item.name }}</a>
       <div class="layer">
         <ul>
-          <li v-for="i in 10" :key="i">
+          <li v-for="child in item.children" :key="child.id">
             <a href="#">
-              <img alt="" src="http://zhoushugang.gitee.io/erabbit-client-pc-static/uploads/img/category%20(4).png">
-              <p>果干</p>
+              <img alt=""
+                   :src="child.picture">
+              <p>{{ child.name }}</p>
             </a>
           </li>
         </ul>
       </div>
     </li>
-    <li><a href="#">餐厨</a></li>
-    <li><a href="#">艺术</a></li>
-    <li><a href="#">电器</a></li>
-    <li><a href="#">居家</a></li>
-    <li><a href="#">洗护</a></li>
-    <li><a href="#">孕婴</a></li>
-    <li><a href="#">服装</a></li>
-    <li><a href="#">杂货</a></li>
   </ul>
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { computed, onMounted } from 'vue'
+
 export default {
   name: 'AppHeaderNav',
-  mounted () {
-    this.$store.dispatch('cate/getCateList')
+  // vue2.0实现
+  // computed: {
+  //   ...mapState('cate', ['list'])
+  // },
+  // mounted () {
+  //   this.$store.dispatch('cate/getCateList')
+  // }
+  // vue3.x实现
+  setup () {
+    // store === this.$store
+    const store = useStore()
+    onMounted(() => {
+      store.dispatch('cate/getCateList')
+    })
+    const list = computed(() => {
+      return store.state.cate.list
+    })
+    return { list }
   }
 }
 </script>
