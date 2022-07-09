@@ -4,6 +4,8 @@
   </nav>
   <header>
     <Header/>
+    <!-- 吸顶组件 -->
+    <HeaderSticky/>
   </header>
   <main>
     <!-- 二级路由出口 -->
@@ -18,13 +20,15 @@
 import Topnav from './components/topnav'
 import Header from './components/header'
 import Footer from './components/footer'
+import HeaderSticky from './components/header-sticky'
 
 export default {
   name: 'xtx-layout',
   components: {
     Topnav,
     Header,
-    Footer
+    Footer,
+    HeaderSticky
   }
 }
 </script>
