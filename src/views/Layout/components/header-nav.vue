@@ -29,7 +29,10 @@
 
 <script>
 export default {
-  name: 'AppHeaderNav'
+  name: 'AppHeaderNav',
+  mounted () {
+    this.$store.dispatch('cate/getCateList')
+  }
 }
 </script>
 
