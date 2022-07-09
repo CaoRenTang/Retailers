@@ -14,13 +14,13 @@
         <div class="layer">
           <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
           <ul>
-            <li v-for="i in 9" :key="i">
+            <li v-for="good in item.goods" :key="good.id">
               <RouterLink to="/">
-                <img src="https://yanxuan-item.nosdn.127.net/5a115da8f2f6489d8c71925de69fe7b8.png" alt="">
+                <img :src="good.picture" alt="">
                 <div class="info">
-                  <p class="name ellipsis-2">【定金购】严选零食大礼包（12件）</p>
-                  <p class="desc ellipsis">超值组合装，满足馋嘴欲</p>
-                  <p class="price"><i>¥</i>100.00</p>
+                  <p class="name ellipsis-2">{{ good.name }}</p>
+                  <p class="desc ellipsis">{{ good.desc }}</p>
+                  <p class="price"><i>¥</i>{{ good.price }}</p>
                 </div>
               </RouterLink>
             </li>
@@ -46,6 +46,7 @@ export default {
         return {
           id: item.id,
           name: item.name,
+          goods: item.goods,
           children: item.children.slice(0, 2)
         }
       })
