@@ -2,27 +2,36 @@
   <nav>
     <Topnav/>
   </nav>
-  <header>头部</header>
+  <header>
+    <Header/>
+  </header>
   <main>
     <!-- 二级路由出口 -->
     <router-view></router-view>
   </main>
-  <footer>底部</footer>
+  <footer>
+    <Footer/>
+  </footer>
 </template>
 
 <script>
 import Topnav from './components/topnav'
+import Header from './components/header'
+import Footer from './components/footer'
 
 export default {
   name: 'xtx-layout',
   components: {
-    Topnav
+    Topnav,
+    Header,
+    Footer
   }
 }
 </script>
 
 <style scoped lang='less'>
-@import '~@/styles/variables.less';
+//手动导入公共样式
+//@import '@/styles/variables.less';
 
 .xtx-home-page {
   color: @xtxColor;

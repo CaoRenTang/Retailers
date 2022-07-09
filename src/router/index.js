@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
+// 导入路由页面
 const Layout = () => import('@/views/Layout')
 const Home = () => import('@/views/Home')
 const routes = [{
