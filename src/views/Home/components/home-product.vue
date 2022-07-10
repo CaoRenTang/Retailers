@@ -1,5 +1,5 @@
 <template>
-  <div class="home-product">
+  <div class="home-product" ref="target">
     <!-- 面板组件 -->
     <Pannel v-for="item in goodsList" :key="item.id" :title="item.name">
       <!--      右侧插槽数据渲染-->
@@ -33,6 +33,8 @@
 import HomeGoods from './home-goods'
 import { findGoodsAPI } from '@/api/home'
 import { onMounted, ref } from 'vue'
+// 引入数据懒加载方法
+import { useLazy } from '@/hooks'
 
 export default {
   name: 'HomeProduct',
@@ -47,10 +49,16 @@ export default {
       goodsList.value = data
     }
 
-    onMounted(() => {
-      getGoodsList()
-    })
-    return { goodsList }
+    // 接口请求
+    // onMounted(() => {
+    //   getGoodsList()
+    // })
+    // 商品数据实现懒加载
+    const { target } = useLazy(getGoodsList)
+    return {
+      goodsList,
+      target
+    }
   }
 }
 </script>
