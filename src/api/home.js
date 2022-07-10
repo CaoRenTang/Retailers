@@ -17,3 +17,12 @@ export const getCateAPI = () => {
 export const findBannerAPI = () => {
   return request('home/banner', 'get')
 }
+/**
+ * @description: 获取新鲜好物
+ * @param {*}
+ * @return {*}
+ */
+export const findNewAPI = () => {
+  return request('home/new', 'get')
+}
+
