@@ -20,7 +20,8 @@
 import { findHotAPI } from '@/api/home'
 import { ref } from 'vue'
 // 1. 导入监控元素是否进入可视区钩子函数
-import { useIntersectionObserver } from '@vueuse/core'
+// import { useIntersectionObserver } from '@vueuse/core'
+import { useLazy } from '@/hooks'
 
 export default {
   setup () {
@@ -36,22 +37,7 @@ export default {
     // })
     // 测试
     // 2. 指定监控的目标元素
-    const target = ref(null)
-
-    const { stop } = useIntersectionObserver(
-      target, // 指定监控的元素
-      ([{ isIntersecting }]) => {
-        // 说明❓：被监控元素进入或离开可视区，会反复执行这个回调函数
-        console.log('人气推荐否进入可视区：', isIntersecting ? '进来了' : '离开了')
-        if (isIntersecting) {
-          // 获取组件数据（只执行一次）
-          getHot()
-          // 关闭监控
-          stop()
-        }
-      }
-    )
-
+    const { target } = useLazy(getHot)
     return {
       hotList,
       target

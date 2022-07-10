@@ -1,5 +1,5 @@
 <template>
-  <Pannel title="新鲜好物" sub="新鲜出炉 品质靠谱">
+  <Pannel ref="target" title="新鲜好物" sub="新鲜出炉 品质靠谱">
     <template #right>
       <xtx-more/>
     </template>
@@ -17,8 +17,9 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { findNewAPI } from '@/api/home'
+import { useLazy } from '@/hooks'
 
 export default {
   setup () {
@@ -28,10 +29,14 @@ export default {
       console.log('-------', data)
       newList.value = data
     }
-    onMounted(() => {
-      getNew()
-    })
-    return { newList }
+    // onMounted(() => {
+    //   getNew()
+    // })
+    const { target } = useLazy(getNew)
+    return {
+      newList,
+      target
+    }
   }
 }
 </script>
