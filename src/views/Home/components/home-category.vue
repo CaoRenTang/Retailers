@@ -34,7 +34,7 @@
     <!-- 骨架屏占位 -->
     <template v-else>
       <ul class="menu">
-        <li v-for="i in list" :key="i.id">
+        <li v-for="i in 9" :key="i">
           <XtxSkeleton
             width="40"
             height="20"

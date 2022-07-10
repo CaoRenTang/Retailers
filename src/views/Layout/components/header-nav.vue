@@ -3,20 +3,32 @@
     <li class="home">
       <RouterLink to="/">首页</RouterLink>
     </li>
-    <li v-for="item in list" :key="item.id">
-      <a href="#">{{ item.name }}</a>
-      <div class="layer">
-        <ul>
-          <li v-for="child in item.children" :key="child.id">
-            <a href="#">
-              <img alt=""
-                   :src="child.picture">
-              <p>{{ child.name }}</p>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </li>
+    <template v-if="list.length>0">
+      <li v-for="item in list" :key="item.id">
+        <a href="#">{{ item.name }}</a>
+        <div class="layer">
+          <ul>
+            <li v-for="child in item.children" :key="child.id">
+              <a href="#">
+                <img alt=""
+                     :src="child.picture">
+                <p>{{ child.name }}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </template>
+    <template v-else>
+      <li v-for="item in 9" :key="item">
+        <XtxSkeleton
+          style="margin-top: 7px"
+          width="40"
+          height="20"
+          bg="#ccc"
+        />
+      </li>
+    </template>
   </ul>
 </template>
 
