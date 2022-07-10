@@ -8,6 +8,8 @@
     <HomeNew/>
     <!--人气推荐-->
     <HomeHot/>
+    <!--商品楼层-->
+    <HomeProduct/>
   </div>
 </template>
 
@@ -16,6 +18,7 @@ import HomeCategory from './components/home-category'
 import HomeBanner from './components/home-banner'
 import HomeNew from './components/home-new'
 import HomeHot from './components/home-hot'
+import HomeProduct from './components/home-product'
 
 export default {
   name: 'PageHome',
@@ -23,7 +26,8 @@ export default {
     HomeCategory,
     HomeBanner,
     HomeNew,
-    HomeHot
+    HomeHot,
+    HomeProduct
   }
 }
 </script>
