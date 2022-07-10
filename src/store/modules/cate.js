@@ -17,8 +17,8 @@ export default {
   actions: {
     async getCateList ({ commit }, payload) {
       const { data } = await getCateAPI()
-      console.log('分类菜单数据：', data.result)
-      commit('setCate', data.result)
+      console.log('分类菜单数据：', data)
+      commit('setCate', data)
     }
   },
   modules: {}

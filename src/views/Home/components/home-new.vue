@@ -25,7 +25,8 @@ export default {
     const newList = ref([])
     const getNew = async () => {
       const { data } = await findNewAPI()
-      newList.value = data.result
+      console.log('-------', data)
+      newList.value = data
     }
     onMounted(() => {
       getNew()

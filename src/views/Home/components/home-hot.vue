@@ -25,7 +25,7 @@ export default {
     const getHotList = async () => {
       const { data } = await findHotAPI()
       // console.log('------', data)
-      hotList.value = data.result
+      hotList.value = data
     }
     onMounted(() => {
       getHotList()

@@ -14,12 +14,13 @@ export default {
   setup () {
     // 定义一个新数组接口轮播图数据
     const bannerList = ref([])
+
     // 调用接口请求轮播图
     async function getBannerList () {
       const { data } = await findBannerAPI()
       console.log('轮播图数据', data)
       // 将轮播图数据保存到数组中
-      bannerList.value = data.result
+      bannerList.value = data
     }
 
     // 生命周期钩子函数

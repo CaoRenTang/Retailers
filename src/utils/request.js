@@ -26,7 +26,11 @@ request.interceptors.request.use(config => {
 request.interceptors.response.use(
   (response) => {
     // 请求成功（2XX）
-    return response
+    const returnData = {
+      msg: response.data.msg,
+      data: response.data.result
+    }
+    return returnData
   },
   // 请求失败（5XX）
   (error) => {
