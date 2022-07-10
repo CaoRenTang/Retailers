@@ -36,7 +36,6 @@ export default {
 <style scoped lang='less'>
 //手动导入公共样式
 //@import '@/styles/variables.less';
-
 .xtx-home-page {
   color: @xtxColor;
 }
