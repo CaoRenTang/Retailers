@@ -1,5 +1,6 @@
 <template>
   <div class="home-banner">
+    <!--    组件库提供的轮播图组件-->
     <XtxSlider :data="bannerList" autoPlay/>
   </div>
 </template>
@@ -13,7 +14,6 @@ export default {
   setup () {
     // 定义一个新数组接口轮播图数据
     const bannerList = ref([])
-
     // 调用接口请求轮播图
     async function getBannerList () {
       const { data } = await findBannerAPI()

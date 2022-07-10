@@ -2,7 +2,11 @@
 * 首页使用的后台接口方法
 */
 import request from '@/utils/request'
-// 获取分类
+
+/**
+ * @description: 获取分类列表
+ * @return {*}
+ */
 export const getCateAPI = () => {
   return request('/home/category/head', 'get')
 }
