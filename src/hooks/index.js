@@ -36,7 +36,7 @@ export function useLazy (apiFn) {
     target, // 指定监控的元素
     ([{ isIntersecting }]) => {
       // 说明❓：被监控元素进入或离开可视区，会反复执行这个回调函数
-      //console.log('人气推荐否进入可视区：', isIntersecting ? '进来了' : '离开了')
+      // console.log('人气推荐否进入可视区：', isIntersecting ? '进来了' : '离开了')
       if (isIntersecting) {
         // 获取组件数据（只执行一次）
         apiFn()
