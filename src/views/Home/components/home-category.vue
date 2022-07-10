@@ -34,20 +34,20 @@
     <!-- 骨架屏占位 -->
     <template v-else>
       <ul class="menu">
-        <li v-for="i in 9" :key="i">
+        <li v-for="i in list" :key="i.id">
           <XtxSkeleton
-            :width="40"
-            :height="20"
+            width="40"
+            height="20"
             style="margin-right: 5px"
             bg="rgba(255,255,255,0.2)"
           />
           <XtxSkeleton
-            :width="50"
-            :height="20"
+            width="50"
+            height="20"
             bg="rgba(255,255,255,0.2)"
             style="margin-right: 5px"
           />
-          <XtxSkeleton :width="50" :height="20" bg="rgba(255,255,255,0.2)"/>
+          <XtxSkeleton width="50" height="20" bg="rgba(255,255,255,0.2)"/>
         </li>
       </ul>
     </template>
