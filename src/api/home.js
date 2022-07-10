@@ -25,4 +25,11 @@ export const findBannerAPI = () => {
 export const findNewAPI = () => {
   return request('home/new', 'get')
 }
-
+/**
+ * @description: 获取人气推荐
+ * @param {*}
+ * @return {*}
+ */
+export const findHotAPI = () => {
+  return request('home/hot', 'get')
+}
