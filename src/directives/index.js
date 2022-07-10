@@ -16,7 +16,7 @@ export default {
        * @param {*} bind 获取指令绑定的变量值
        */
       mounted (el, bind) {
-        console.log('指令执行：', el, bind)
+        // console.log('指令执行：', el, bind)
         const { stop } = useIntersectionObserver(
           // 监听目标元素
           el,

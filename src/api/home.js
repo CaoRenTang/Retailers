@@ -19,7 +19,6 @@ export const findBannerAPI = () => {
 }
 /**
  * @description: 获取新鲜好物
- * @param {*}
  * @return {*}
  */
 export const findNewAPI = () => {
@@ -27,9 +26,15 @@ export const findNewAPI = () => {
 }
 /**
  * @description: 获取人气推荐
- * @param {*}
  * @return {*}
  */
 export const findHotAPI = () => {
   return request('home/hot', 'get')
+}
+/**
+ * @description: 获取所有商品模块
+ * @return {*}
+ */
+export const findGoodsAPI = () => {
+  return request('home/goods', 'get')
 }

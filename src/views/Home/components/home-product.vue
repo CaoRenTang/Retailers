@@ -1,29 +1,27 @@
 <template>
   <div class="home-product">
     <!-- 面板组件 -->
-    <Pannel title="生鲜" v-for="i in 4" :key="i">
+    <Pannel v-for="item in goodsList" :key="item.id" :title="item.name">
+      <!--      右侧插槽数据渲染-->
       <template #right>
         <div class="sub">
-          <RouterLink to="/">海鲜</RouterLink>
-          <RouterLink to="/">水果</RouterLink>
-          <RouterLink to="/">蔬菜</RouterLink>
-          <RouterLink to="/">水产</RouterLink>
-          <RouterLink to="/">禽肉</RouterLink>
+          <RouterLink v-for="sub in item.children" :key="sub.id" to="/">{{ sub.name }}</RouterLink>
         </div>
         <XtxMore/>
       </template>
       <div class="box">
         <RouterLink class="cover" to="/">
-          <img src="http://zhoushugang.gitee.io/erabbit-client-pc-static/uploads/fresh_goods_cover.jpg" alt="">
+          <img :src="item.picture" alt="">
           <strong class="label">
-            <span>生鲜馆</span>
-            <span>全场3件7折</span>
+            <span>{{ item.name }}馆</span>
+            <span>{{ item.saleInfo }}</span>
           </strong>
         </RouterLink>
+        <!--内容区域的商品卡片渲染-->
         <ul class="goods-list">
-          <li v-for="i in 8" :key="i">
+          <li v-for="item in item.goods" :key="item.id">
             <!-- 商品组件 -->
-            <HomeGoods/>
+            <HomeGoods :goods="item"/>
           </li>
         </ul>
       </div>
@@ -33,14 +31,31 @@
 
 <script>
 import HomeGoods from './home-goods'
+import { findGoodsAPI } from '@/api/home'
+import { onMounted, ref } from 'vue'
 
 export default {
   name: 'HomeProduct',
-  components: { HomeGoods }
+  components: { HomeGoods },
+  setup () {
+    const goodsList = ref([])
+
+    // 定义方法获取数据
+    async function getGoodsList () {
+      const { data } = await findGoodsAPI()
+      console.log('商品楼层数据', data)
+      goodsList.value = data
+    }
+
+    onMounted(() => {
+      getGoodsList()
+    })
+    return { goodsList }
+  }
 }
 </script>
 
-<style scoped lang='less'>
+<style lang='less' scoped>
 .home-product {
   background: #fff;
   height: 2900px;
