@@ -5,7 +5,7 @@
       <ul class="menu">
         <!-- 一级 -->
         <li v-for="item in list" :key="item.id">
-          <RouterLink to="/">{{ item.name }}</RouterLink>
+          <RouterLink :to="`/goods/${item.id}`">{{ item.name }}</RouterLink>
           <!-- 二级 -->
           <template v-if="item.children.length > 0">
             <RouterLink v-for="sub in item.children" :key="sub.id" to="/">

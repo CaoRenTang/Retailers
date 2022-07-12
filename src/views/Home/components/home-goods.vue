@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item">
-    <RouterLink to="/" class="image">
+    <RouterLink :to="`/goods/${goods.id}`" class="image">
       <img :src="goods.picture" alt=""/>
     </RouterLink>
     <p class="name ellipsis-2">美威 智利原味三文鱼排 240g/袋 4片装</p>

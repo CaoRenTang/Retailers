@@ -4,20 +4,20 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 const Layout = () => import('@/views/Layout')
 const Home = () => import('@/views/Home')
 const Category = () => import('@/views/Category')
+const Goods = () => import('@/views/Goods/index')
 const routes = [{
   path: '/',
-  component: Layout,
-  // 子路由
-  children: [
-    {
-      path: '/',
-      component: Home
-    },
-    {
-      path: '/Category/:id',
-      component: Category
-    }
-  ]
+  component: Layout, // 子路由
+  children: [{
+    path: '/',
+    component: Home
+  }, {
+    path: '/Category/:id',
+    component: Category
+  }, {
+    path: '/goods/:id',
+    component: Goods
+  }]
 }]
 
 const router = createRouter({

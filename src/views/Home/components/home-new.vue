@@ -6,7 +6,7 @@
     <!--    商品列表-->
     <ul ref="pannel" class="goods-list">
       <li v-for="item in newList" :key="item.id">
-        <RouterLink to="/">
+        <RouterLink :to="`/goods/${item.id}`">
           <img v-imgLazy="item.picture" alt=""/>
           <p class="name">{{ item.name }}</p>
           <p class="price">&yen;{{ item.price }}</p>
