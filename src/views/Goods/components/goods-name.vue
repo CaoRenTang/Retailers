@@ -14,7 +14,8 @@
       <dt>配送</dt>
       <dd>至</dd>
       <dd>
-        <XtxCity/>
+        <!--配送地址-->
+        <XtxCity :data="cityData"/>
       </dd>
     </dl>
     <dl>
@@ -30,13 +31,25 @@
 </template>
 
 <script>
-import { inject } from 'vue'
+import { inject, onMounted, ref } from 'vue'
+import axios from 'axios'
 
 export default {
   name: 'GoodName',
   setup () {
     const goods = inject('detail')
-    return { goods }
+    const cityData = ref([])
+    const getCityData = async () => {
+      const { data } = await axios({ url: 'https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tuxian/area.json' })
+      cityData.value = data
+    }
+    onMounted(() => {
+      getCityData()
+    })
+    return {
+      goods,
+      cityData
+    }
   }
 }
 </script>
