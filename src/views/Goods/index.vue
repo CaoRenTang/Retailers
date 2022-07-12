@@ -22,7 +22,7 @@
           <GoodsName/>
           <!-- 新增 sku -->
           <XtxSku :goods="goodDetail" @change="getSku"/>
-          <Numbox :max="goodDetail.inventory"/>
+          <Numbox :max="goodDetail.inventory" v-model="buyNum"/>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -74,9 +74,18 @@ export default {
         goodDetail.value.inventory = selSku.inventory
       }
     }
+    // 购买数量
+    const buyNum = ref(1)
+    const getNum = (num) => {
+      console.log('购买数量：', num)
+      buyNum.value = num
+    }
+
     return {
       goodDetail,
-      getSku
+      getSku,
+      getNum,
+      buyNum
     }
   }
 }

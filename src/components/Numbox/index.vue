@@ -9,12 +9,16 @@
   </div>
 </template>
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { msg } from 'rabbit-ui-core'
 
 export default {
   name: 'XtxNumbox',
   props: {
+    modelValue: {
+      type: Number,
+      default: 1
+    },
     max: {
       type: Number,
       default: 10
@@ -24,18 +28,26 @@ export default {
       default: 1
     }
   },
-  setup (props) {
+  emits: ['change', 'update:modelValue'],
+  setup (props, { emit }) {
     const num = ref(1)
-    // 减
+    // 数量-1
     const sub = () => {
       if (num.value === props.min) return
       num.value--
+      // 1. 同步数据num到modelValue
+      emit('update:modelValue', num.value)
     }
-    // 加
+    // 数量+1
     const add = () => {
       if (num.value === props.max) return msg({ text: '超出最大购买数量' })
       num.value++
+      emit('update:modelValue', num.value)
     }
+    // 2. 同步数据modelValue到num
+    watch(() => props.modelValue, (newVal) => {
+      num.value = newVal
+    }, { immediate: true })
     return {
       num,
       sub,
