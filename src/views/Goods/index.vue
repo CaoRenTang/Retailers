@@ -2,14 +2,26 @@
   <div class='xtx-goods-page'>
     <div class="container">
       <!-- 面包屑 -->
-      <XtxBread separator="/" v-if="goodDetail.categories">
+      <XtxBread v-if="goodDetail.categories" separator="/">
         <XtxBreadItem to="/">首页</XtxBreadItem>
         <XtxBreadItem to="/">{{ goodDetail.categories[1].name }}</XtxBreadItem>
         <XtxBreadItem to="/">{{ goodDetail.categories[0].name }}</XtxBreadItem>
         <XtxBreadItem to="/">{{ goodDetail.name }}</XtxBreadItem>
       </XtxBread>
       <!-- 商品信息 -->
-      <div class="goods-info"></div>
+      <div class="goods-info">
+        <!-- 图片预览区 -->
+        <div class="media">
+          <GoodsImage :imageList="goodDetail.mainPictures"/>
+          <!-- 销量组件 -->
+          <GoodsSales/>
+        </div>
+        <!-- 商品信息区 -->
+        <div class="spec">
+          <!-- 信息组件 -->
+          <GoodsName/>
+        </div>
+      </div>
       <!-- 商品详情 -->
       <div class="goods-footer">
         <div class="goods-article">
@@ -28,9 +40,15 @@
 import { onMounted, ref } from 'vue'
 import { findGoodsDetailAPI } from '@/api/goods'
 import { useRoute } from 'vue-router'
+import GoodsSales from './components/goods-sales'
+import GoodsName from './components/goods-name'
 
 export default {
   name: 'XtxGoodsPage',
+  components: {
+    GoodsSales,
+    GoodsName
+  },
   setup () {
     const route = useRoute()
     const goodDetail = ref({})
@@ -47,11 +65,22 @@ export default {
 }
 </script>
 
-<style scoped lang='less'>
+<style lang='less' scoped>
 .goods-info {
   min-height: 600px;
   background: #fff;
   display: flex;
+  // 新增样式
+  .media {
+    width: 580px;
+    height: 600px;
+    padding: 30px 50px;
+  }
+
+  .spec {
+    flex: 1;
+    padding: 30px 30px 30px 0;
+  }
 }
 
 .goods-footer {
