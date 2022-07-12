@@ -1,8 +1,8 @@
 <template>
   <div class='xtx-goods-page'>
-    <div class="container">
+    <div class="container" v-if="goodDetail.categories">
       <!-- 面包屑 -->
-      <XtxBread v-if="goodDetail.categories" separator="/">
+      <XtxBread separator="/">
         <XtxBreadItem to="/">首页</XtxBreadItem>
         <XtxBreadItem to="/">{{ goodDetail.categories[1].name }}</XtxBreadItem>
         <XtxBreadItem to="/">{{ goodDetail.categories[0].name }}</XtxBreadItem>
@@ -12,7 +12,7 @@
       <div class="goods-info">
         <!-- 图片预览区 -->
         <div class="media">
-          <GoodsImage :imageList="goodDetail.mainPictures"/>
+          <XtxGoodViewer :imageList="goodDetail.mainPictures"/>
           <!-- 销量组件 -->
           <GoodsSales/>
         </div>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, provide } from 'vue'
 import { findGoodsDetailAPI } from '@/api/goods'
 import { useRoute } from 'vue-router'
 import GoodsSales from './components/goods-sales'
@@ -52,6 +52,7 @@ export default {
   setup () {
     const route = useRoute()
     const goodDetail = ref({})
+    provide('detail', goodDetail)
     const getGoodDetails = async (id) => {
       const { data } = await findGoodsDetailAPI(id)
       goodDetail.value = data
