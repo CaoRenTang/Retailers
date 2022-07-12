@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { findAllCategoryAPI } from '@/api/category'
 import { useRoute } from 'vue-router'
 
@@ -45,15 +45,19 @@ export default {
   setup () {
     // 1.定义一个空数组
     const cateList = ref([])
+    const route = useRoute()
     // 2.获取分类数据
-    const getCateList = async () => {
-      const route = useRoute()
-      const { data } = await findAllCategoryAPI(route.params.id)
+    const getCateList = async (id) => {
+      const { data } = await findAllCategoryAPI(id)
       cateList.value = data.children
       console.log('分类数据', data)
     }
     onMounted(() => {
-      getCateList()
+      getCateList(route.params.id)
+    })
+    // 1.解决路由缓冲
+    watch(() => route.params.id, (newValue, oldValue) => {
+      getCateList(newValue)
     })
     return { cateList }
   }
