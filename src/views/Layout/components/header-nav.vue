@@ -35,6 +35,8 @@
 
 <script>
 import { useCate } from '@/hooks/index.js'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 export default {
   name: 'AppHeaderNav',
@@ -47,7 +49,13 @@ export default {
   // }
   // vue3.x实现
   setup () {
-    const { list } = useCate()
+    // const { list } = useCate()
+    const store = useStore()
+    // 计算获取分类菜单数据
+    const list = computed(() => {
+      return store.state.cate.list
+    })
+    // console.log('test:', list)
     return { list }
   }
 }
