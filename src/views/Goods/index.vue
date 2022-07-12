@@ -20,6 +20,8 @@
         <div class="spec">
           <!-- 信息组件 -->
           <GoodsName/>
+          <!-- 新增 sku -->
+          <XtxSku :goods="goodDetail" @change="getSku"/>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -61,7 +63,17 @@ export default {
     onMounted(() => {
       getGoodDetails(route.params.id)
     })
-    return { goodDetail }
+    const getSku = (selSku) => {
+      if (selSku.price) {
+        goodDetail.value.price = selSku.price
+        goodDetail.value.oldPrice = selSku.oldPrice
+        goodDetail.value.inventory = selSku.inventory
+      }
+    }
+    return {
+      goodDetail,
+      getSku
+    }
   }
 }
 </script>

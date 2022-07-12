@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { useCate } from '@/hooks/index.js'
+// import { useCate } from '@/hooks/index.js'
 import { useStore } from 'vuex'
 import { computed } from 'vue'
 
