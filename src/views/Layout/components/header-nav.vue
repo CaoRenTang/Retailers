@@ -6,7 +6,7 @@
     <template v-if="list.length>0">
       <li v-for="item in list" :key="item.id">
         <!--        <a href="#">{{ item.name }}</a>-->
-        <router-link to="`/category/${item.id}`">{{ item.name }}</router-link>
+        <Router-link :to="`/category/${item.id}`">{{ item.name }}</Router-link>
         <div class="layer">
           <ul>
             <li v-for="child in item.children" :key="child.id">
