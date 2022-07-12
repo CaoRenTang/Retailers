@@ -22,6 +22,7 @@
           <GoodsName/>
           <!-- 新增 sku -->
           <XtxSku :goods="goodDetail" @change="getSku"/>
+          <Numbox :max="goodDetail.inventory"/>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -44,10 +45,13 @@ import { findGoodsDetailAPI } from '@/api/goods'
 import { useRoute } from 'vue-router'
 import GoodsSales from './components/goods-sales'
 import GoodsName from './components/goods-name'
+import XtxNumbox from '@/components/Numbox'
 
 export default {
   name: 'XtxGoodsPage',
   components: {
+    // eslint-disable-next-line vue/no-unused-components
+    XtxNumbox,
     GoodsSales,
     GoodsName
   },
