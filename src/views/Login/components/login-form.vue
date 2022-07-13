@@ -1,7 +1,11 @@
 <template>
   <div class="account-box">
     <!--登录表单-->
-    <Form :validation-schema="rules" v-slot="{ errors }" class="form">
+    <Form
+      ref="fm"
+      :validation-schema="rules"
+      v-slot="{ errors }"
+      class="form">
       <!-- <p>{{ errors }}</p> -->
       <!-- 1. 用户名或手机号 -->
       <div class="form-item">
@@ -46,7 +50,7 @@
           <a href="javascript:;">《服务条款》</a>
         </div>
       </div>
-      <a href="javascript:;" class="btn">登录</a>
+      <a href="javascript:;" class="btn" @click="submit">登录</a>
     </Form>
     <div class="action">
       <img
@@ -62,7 +66,7 @@
 </template>
 <script>
 import { Form, Field } from 'vee-validate'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import veeRules from '@/utils/rules'
 
 export default {
@@ -79,14 +83,24 @@ export default {
     })
     // 2.表单检验规则
     const rules = {
-      // 检验用户名
+      // 检验用户名函数
       account: veeRules.account,
-      // 检验密码
+      // 检验密码函数
       password: veeRules.password
+    }
+    // 3.表单兜底校验
+    const fm = ref(null)
+    const submit = async () => {
+      const { valid } = await fm.value.validate()
+      if (valid) {
+        console.log('检验通过', valid)
+      }
     }
     return {
       formData,
-      rules
+      rules,
+      fm,
+      submit
     }
   }
 }
