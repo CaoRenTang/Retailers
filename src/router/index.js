@@ -1,24 +1,36 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 // import HomeView from '../views/HomeView.vue'
 // 导入路由页面（懒加载形式）
+// 父页面
 const Layout = () => import('@/views/Layout')
+// 首页
 const Home = () => import('@/views/Home')
+// 分类
 const Category = () => import('@/views/Category')
+// 商品
 const Goods = () => import('@/views/Goods/index')
-const routes = [{
-  path: '/',
-  component: Layout, // 子路由
-  children: [{
+// 登录
+const Login = () => import('@/views/Login')
+const routes = [
+  {
     path: '/',
-    component: Home
-  }, {
-    path: '/Category/:id',
-    component: Category
-  }, {
-    path: '/goods/:id',
-    component: Goods
-  }]
-}]
+    component: Layout, // 子路由
+    children: [{
+      path: '/',
+      component: Home
+    }, {
+      path: '/Category/:id',
+      component: Category
+    }, {
+      path: '/goods/:id',
+      component: Goods
+    }]
+  },
+  {
+    path: '/Login',
+    component: Login
+  }
+]
 
 const router = createRouter({
   history: createWebHashHistory(),

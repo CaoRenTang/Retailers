@@ -63,6 +63,7 @@ export default {
       const { data } = await findGoodsDetailAPI(id)
       goodDetail.value = data
       console.log('详情', data)
+      console.log('数据', goodDetail)
     }
     onMounted(() => {
       getGoodDetails(route.params.id)
