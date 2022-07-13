@@ -3,8 +3,8 @@
     <!--登录表单-->
     <Form
       ref="fm"
-      :validation-schema="rules"
       v-slot="{ errors }"
+      :validation-schema="rules"
       class="form">
       <!-- <p>{{ errors }}</p> -->
       <!-- 1. 用户名或手机号 -->
@@ -12,11 +12,11 @@
         <div class="input">
           <i class="iconfont icon-user"></i>
           <Field
+            v-model="formData.account"
             :class="{ error: errors.account }"
             name="account"
-            v-model="formData.account"
-            type="text"
             placeholder="请输入用户名或手机号"
+            type="text"
           />
         </div>
         <!-- 表单验证错误信息提示 -->
@@ -29,11 +29,11 @@
         <div class="input">
           <i class="iconfont icon-lock"></i>
           <Field
+            v-model="formData.password"
             :class="{ error: errors.password }"
             name="password"
-            v-model="formData.password"
-            type="password"
             placeholder="请输入密码"
+            type="password"
           />
         </div>
         <div v-if="errors.password" class="error">
@@ -43,14 +43,24 @@
       <!-- 3. 用户协议 -->
       <div class="form-item">
         <div class="agree">
-          <XtxCheckbox/>
+          <!--选择框-->
+          <Field
+            v-model="formData.isAgree"
+            as="XtxCheckbox"
+            name="isAgree"
+          />
           <span>我已同意</span>
           <a href="javascript:;">《隐私条款》</a>
           <span>和</span>
           <a href="javascript:;">《服务条款》</a>
         </div>
+        <!--错误提示-->
+        <div v-if="errors.isAgree" class="error">
+          <i class="iconfont icon-warning"/>
+          {{ errors.isAgree }}
+        </div>
       </div>
-      <a href="javascript:;" class="btn" @click="submit">登录</a>
+      <a class="btn" href="javascript:;" @click="submit">登录</a>
     </Form>
     <div class="action">
       <img
@@ -68,6 +78,9 @@
 import { Form, Field } from 'vee-validate'
 import { reactive, ref } from 'vue'
 import veeRules from '@/utils/rules'
+import { useStore } from 'vuex'
+import { msg } from 'rabbit-ui-core'
+import { useRouter } from 'vue-router'
 
 export default {
   components: {
@@ -79,21 +92,38 @@ export default {
     // 1.定义表单数据对象
     const formData = reactive({
       account: null, // 账号
-      password: null // 密码
+      password: null, // 密码
+      isAgree: false // 是否同意协议
     })
     // 2.表单检验规则
     const rules = {
       // 检验用户名函数
       account: veeRules.account,
       // 检验密码函数
-      password: veeRules.password
+      password: veeRules.password,
+      // 是否同意协议
+      isAgree: veeRules.isAgree
     }
     // 3.表单兜底校验
+    // 获取表单实例
     const fm = ref(null)
+    // 获取store实例
+    const store = useStore()
+    // 获取路由实例
+    const router = useRouter()
     const submit = async () => {
       const { valid } = await fm.value.validate()
       if (valid) {
-        console.log('检验通过', valid)
+        // console.log('检验通过', valid)
+        // 调用vuex的登录方法
+        await store.dispatch('user/loginAction', formData)
+        // 消息提示
+        msg({
+          type: 'success',
+          text: '登录成功'
+        })
+        // 跳转到首页
+        await router.replace('/')
       }
     }
     return {

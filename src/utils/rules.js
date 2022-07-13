@@ -2,7 +2,7 @@ export default {
   // 校验account
   account (value) {
     if (!value) return '请输入用户名'
-    if (!/^\w{4,10}$/.test(value)) return '长度是4-10个字符'
+    // if (!/^\w{4,10}$/.test(value)) return '长度是4-10个字符'
     return true
   },
   password (value) {
