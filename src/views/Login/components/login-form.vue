@@ -80,7 +80,7 @@ import { reactive, ref } from 'vue'
 import veeRules from '@/utils/rules'
 import { useStore } from 'vuex'
 import { msg } from 'rabbit-ui-core'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   components: {
@@ -111,6 +111,8 @@ export default {
     const store = useStore()
     // 获取路由实例
     const router = useRouter()
+    // 获取路由参数
+    const route = useRoute()
     const submit = async () => {
       const { valid } = await fm.value.validate()
       if (valid) {
@@ -122,8 +124,9 @@ export default {
           type: 'success',
           text: '登录成功'
         })
-        // 跳转到首页
-        await router.replace('/')
+        // 判断是否跳回上一次访问的页面（401），正常访问跳转回首页
+        // route.query.backPath为上一次登录返回的路由参数路径
+        await router.replace(route.query.backPath || '/')
       }
     }
     return {
