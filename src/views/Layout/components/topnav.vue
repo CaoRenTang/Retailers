@@ -8,7 +8,7 @@
         </template>
         <template v-else>
           <li>
-            <router-link to="/Login">请先登录</router-link>
+            <router-link to="/login">请先登录</router-link>
           </li>
           <li><a href="javascript:;">免费注册</a></li>
         </template>
