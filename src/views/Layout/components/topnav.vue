@@ -27,7 +27,7 @@
 <script>
 import { mapState, useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import { msg } from 'rabbit-ui-core'
+import { msg, XtxConfirm } from 'rabbit-ui-core'
 
 export default {
   name: 'AppTopnav',
@@ -42,15 +42,21 @@ export default {
     // 获取路由实例
     const router = useRouter()
     const loginOut = () => {
-      // 退出登录，清空vuex
-      store.dispatch('user/loginOutAction')
-      // 提示信息
-      msg({
-        type: 'success',
-        text: '退出成功'
+      // 用户确认
+      XtxConfirm({
+        title: '警告',
+        text: '确认退出吗？'
+      }).then(() => {
+        // 退出登录，调用vuex的方法
+        store.dispatch('user/loginOutAction')
+        // 跳转到登录页
+        router.push('/login')
+      }).catch(() => {
+        msg({
+          type: 'error',
+          text: '已取消'
+        })
       })
-      // 跳转到登录页
-      router.push('/login')
     }
     return {
       loginOut
