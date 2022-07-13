@@ -1,34 +1,42 @@
 <template>
   <div class="account-box">
     <!--登录表单-->
-    <Form
-      class="form">
-      <!--用户名手机号-->
+    <Form :validation-schema="rules" v-slot="{ errors }" class="form">
+      <!-- <p>{{ errors }}</p> -->
+      <!-- 1. 用户名或手机号 -->
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-user"></i>
           <Field
-            placeholder="请输入用户名或手机号"
-            type="text"
-            v-model="formData.account"
+            :class="{ error: errors.account }"
             name="account"
+            v-model="formData.account"
+            type="text"
+            placeholder="请输入用户名或手机号"
           />
         </div>
         <!-- 表单验证错误信息提示 -->
-        <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
+        <div v-if="errors.account" class="error">
+          <i class="iconfont icon-warning"/>{{ errors.account }}
+        </div>
       </div>
-      <!--密码-->
+      <!-- 2. 密码 -->
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-lock"></i>
           <Field
-            placeholder="请输入密码"
-            type="password"
+            :class="{ error: errors.password }"
+            name="password"
             v-model="formData.password"
-            name="password"/>
+            type="password"
+            placeholder="请输入密码"
+          />
+        </div>
+        <div v-if="errors.password" class="error">
+          <i class="iconfont icon-warning"/>{{ errors.password }}
         </div>
       </div>
-      <!--用户协议-->
+      <!-- 3. 用户协议 -->
       <div class="form-item">
         <div class="agree">
           <XtxCheckbox/>
@@ -38,7 +46,7 @@
           <a href="javascript:;">《服务条款》</a>
         </div>
       </div>
-      <a class="btn" href="javascript:;">登录</a>
+      <a href="javascript:;" class="btn">登录</a>
     </Form>
     <div class="action">
       <img
@@ -71,8 +79,10 @@ export default {
     })
     // 2.表单检验规则
     const rules = {
-      account: veeRules.account(),
-      password: veeRules.password()
+      // 检验用户名
+      account: veeRules.account,
+      // 检验密码
+      password: veeRules.password
     }
     return {
       formData,
