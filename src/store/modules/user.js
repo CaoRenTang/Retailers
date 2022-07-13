@@ -18,14 +18,22 @@ export default {
   mutations: {
     setProfile (state, profile) {
       state.profile = profile
+    },
+
+    delProfile (state) {
+      state.profile = {}
     }
   },
-  // 登录请求
   actions: {
+    // 登录方法
     async loginAction ({ commit }, formData) {
       const { data } = await userAccountLoginAPI(formData)
       console.log('登录信息', data)
       commit('setProfile', data)
+    },
+    // 退出方法
+    loginOutAction ({ commit }) {
+      commit('delProfile')
     }
   }
 

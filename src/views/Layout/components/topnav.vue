@@ -3,8 +3,11 @@
     <div class="container">
       <ul>
         <template v-if="profile.token">
-          <li><a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a></li>
-          <li><a href="javascript:;">退出登录</a></li>
+          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{
+              profile.account || profile.name || '----'
+            }}</a>
+          </li>
+          <li><a href="javascript:;" @click="loginOut">退出登录</a></li>
         </template>
         <template v-else>
           <li>
@@ -22,7 +25,9 @@
   </nav>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { msg } from 'rabbit-ui-core'
 
 export default {
   name: 'AppTopnav',
@@ -30,6 +35,26 @@ export default {
   computed: {
     // 借用vuex中的数据进行映射，如果存在token值，则证明已经登录，显示用户名和退出登录，否则显示请先登录
     ...mapState('user', ['profile'])
+  },
+  setup () {
+    // 获取store实例
+    const store = useStore()
+    // 获取路由实例
+    const router = useRouter()
+    const loginOut = () => {
+      // 退出登录，清空vuex
+      store.dispatch('user/loginOutAction')
+      // 提示信息
+      msg({
+        type: 'success',
+        text: '退出成功'
+      })
+      // 跳转到登录页
+      router.push('/login')
+    }
+    return {
+      loginOut
+    }
   }
 }
 </script>
