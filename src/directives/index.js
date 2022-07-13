@@ -3,7 +3,7 @@
  */
 // 引入监听是否进入视口
 import { useIntersectionObserver } from '@vueuse/core'
-import defaltImg from '@/assets/images/200.png'
+import Load from '@/assets/images/load.gif'
 
 export default {
   install (app) {
@@ -23,12 +23,12 @@ export default {
             if (isIntersecting) {
               // 图片进入可视区了
               // 默认先显示loading图片
-              el.src = defaltImg
+              el.src = Load
 
               setTimeout(() => {
                 // 延迟200ms 下载并渲染图片
                 el.src = bind.value
-              }, 200)
+              }, 150)
 
               el.onerror = () => {
                 // 图片加载失败
