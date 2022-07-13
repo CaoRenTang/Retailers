@@ -18,15 +18,23 @@ export default {
       mounted (el, bind) {
         // console.log('指令执行：', el, bind)
         const { stop } = useIntersectionObserver(
-          // 监听目标元素
-          el,
-          ([{ isIntersecting }], observerElement) => {
+          el, // 监控目标元素
+          ([{ isIntersecting }]) => {
             if (isIntersecting) {
-              // 当图片url无效加载失败的时候使用默认图片替代
-              el.onerror = function () {
-                el.src = defaltImg
+              // 图片进入可视区了
+              // 默认先显示loading图片
+              el.src = defaltImg
+
+              setTimeout(() => {
+                // 延迟200ms 下载并渲染图片
+                el.src = bind.value
+              }, 200)
+
+              el.onerror = () => {
+                // 图片加载失败
+                el.src = Load
               }
-              el.src = bind.value
+              // 关闭监控
               stop()
             }
           }
