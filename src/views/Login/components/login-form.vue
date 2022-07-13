@@ -1,6 +1,8 @@
 <template>
   <div class="account-box">
+    <!--登录表单-->
     <div class="form">
+      <!--用户名手机号-->
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-user"></i>
@@ -9,15 +11,17 @@
         <!-- 表单验证错误信息提示 -->
         <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
       </div>
+      <!--密码-->
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-lock"></i>
           <input type="password" placeholder="请输入密码"/>
         </div>
       </div>
+      <!--用户协议-->
       <div class="form-item">
         <div class="agree">
-          <XtxCheckBox/>
+          <XtxCheckbox/>
           <span>我已同意</span>
           <a href="javascript:;">《隐私条款》</a>
           <span>和</span>

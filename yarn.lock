@@ -6534,6 +6534,13 @@
   "resolved" "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   "version" "1.1.2"
 
+"vee-validate@^4.6.1":
+  "integrity" "sha512-8IVy8PHpezerEEsvSBArFXmAN/hymeYzCA8RdDsMiX+NmYtKnkLlgtHS86j6RZ/wGQRKoStNjBOZG07ZVNr53Q=="
+  "resolved" "https://registry.npmmirror.com/vee-validate/-/vee-validate-4.6.1.tgz"
+  "version" "4.6.1"
+  dependencies:
+    "@vue/devtools-api" "^6.1.4"
+
 "vue-cli-plugin-style-resources-loader@~0.1.5":
   "integrity" "sha512-LluhjWTZmpGl3tiXg51EciF+T70IN/9t6UvfmgluJBqxbrb6OV9i7L5lTd+OKtcTeghDkhcBmYhtTxxU4w/8sQ=="
   "resolved" "https://registry.npmmirror.com/vue-cli-plugin-style-resources-loader/-/vue-cli-plugin-style-resources-loader-0.1.5.tgz"
