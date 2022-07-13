@@ -1,12 +1,18 @@
 <template>
   <div class="account-box">
     <!--登录表单-->
-    <div class="form">
+    <Form
+      class="form">
       <!--用户名手机号-->
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-user"></i>
-          <input type="text" placeholder="请输入用户名或手机号"/>
+          <Field
+            placeholder="请输入用户名或手机号"
+            type="text"
+            v-model="formData.account"
+            name="account"
+          />
         </div>
         <!-- 表单验证错误信息提示 -->
         <!-- <div class="error"><i class="iconfont icon-warning" />请输入手机号</div> -->
@@ -15,7 +21,11 @@
       <div class="form-item">
         <div class="input">
           <i class="iconfont icon-lock"></i>
-          <input type="password" placeholder="请输入密码"/>
+          <Field
+            placeholder="请输入密码"
+            type="password"
+            v-model="formData.password"
+            name="password"/>
         </div>
       </div>
       <!--用户协议-->
@@ -28,12 +38,12 @@
           <a href="javascript:;">《服务条款》</a>
         </div>
       </div>
-      <a href="javascript:;" class="btn">登录</a>
-    </div>
+      <a class="btn" href="javascript:;">登录</a>
+    </Form>
     <div class="action">
       <img
-        src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
         alt=""
+        src="https://qzonestyle.gtimg.cn/qzone/vas/opensns/res/img/Connect_logo_7.png"
       />
       <div class="url">
         <a href="javascript:;">忘记密码</a>
@@ -42,7 +52,35 @@
     </div>
   </div>
 </template>
+<script>
+import { Form, Field } from 'vee-validate'
+import { reactive } from 'vue'
+import veeRules from '@/utils/rules'
 
+export default {
+  components: {
+    // 注册组件
+    Form,
+    Field
+  },
+  setup () {
+    // 1.定义表单数据对象
+    const formData = reactive({
+      account: null, // 账号
+      password: null // 密码
+    })
+    // 2.表单检验规则
+    const rules = {
+      account: veeRules.account(),
+      password: veeRules.password()
+    }
+    return {
+      formData,
+      rules
+    }
+  }
+}
+</script>
 <style lang="less" scoped>
 // 账号容器
 .account-box {
