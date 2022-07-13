@@ -30,7 +30,7 @@
         <div class="goods-article">
           <div class="goods-tabs">
             <!-- 详情图片列表 -->
-            <img/>
+            <img v-for="url in goodDetail.details.pictures" v-imgLazy="url" :key="url"/>
           </div>
         </div>
         <div class="goods-aside"></div>
