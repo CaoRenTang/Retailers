@@ -55,6 +55,7 @@ import GoodsSales from './components/goods-sales'
 import GoodsName from './components/goods-name'
 import XtxNumbox from '@/components/Numbox'
 import { msg } from 'rabbit-ui-core'
+import { useStore } from 'vuex'
 
 export default {
   name: 'XtxGoodsPage',
@@ -77,9 +78,10 @@ export default {
     onMounted(() => {
       getGoodDetails(route.params.id)
     })
-    // 保存选择的商品组合sku信息
+    // 获取选中的sku（销售属性）信息
+    // 说明❓：sku属性不同的组合，算作单独的一个商品
+    // 存储选中的sku组合的商品信息
     const currSku = ref(null)
-    // 当前选择的商品
     const getSku = (selSku) => {
       if (selSku.price) {
         goodDetail.value.price = selSku.price
@@ -92,14 +94,23 @@ export default {
         // 清空上次保存的选中的sku组合信息
         currSku.value = null
       }
+      // 选择的商品组合sku信息
+      // console.log(selSku)
     }
+    const store = useStore()
     // 点击添加到购物车
     const addCart = () => {
+      /**
+       * 1. 选中了有效的sku组合的商品信息
+       * 2. 有效的sku组合的商品库存大于0
+       * 3. 执行vuex的action加入购物车
+       */
       // 判断是否选择了商品规格
       if (!currSku.value) return msg({ text: '请选择完整的商品规格' })
       // 判断库存数量
       if (goodDetail.value.inventory === 0) return msg({ text: '商品库存不足' })
       console.log(currSku.value)
+      store.dispatch('cart/addCartAction')
     }
     // 购买数量
     const buyNum = ref(1)
