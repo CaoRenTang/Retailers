@@ -46,6 +46,10 @@ export default {
         // 每一个选择框和全选框选择状态保持一致
         item.selected = isSelAll
       })
+    },
+    // 删除方法
+    delCart (state, skuId) {
+      state.list.splice(state.list.findIndex(item => item.id === skuId), 1)
     }
   },
   getters: {
@@ -132,6 +136,21 @@ export default {
       } else {
         // 未登录
         commit('selAll', isSelAll)
+      }
+    },
+    /*
+    * 删除方法
+    * */
+    delCartAction ({
+      commit,
+      rootState
+    }, skuId) {
+      if (rootState.user.profile.token) {
+        // 已经登录
+        console.log('已经登录')
+      } else {
+        // 未登录,调用删除方法
+        commit('delCart', skuId)
       }
     }
   }

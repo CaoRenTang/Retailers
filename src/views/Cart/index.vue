@@ -9,7 +9,7 @@
         <table>
           <thead>
           <tr>
-            <!-- 全选 -->
+            <!--全选-->
             <th width="120">
               <XtxCheckbox
                 :modelValue="isAll"
@@ -35,8 +35,7 @@
             </td>
             <td>
               <div class="goods">
-                <RouterLink to="/"><img :src="good.picture"
-                                        alt=""></RouterLink>
+                <RouterLink to="/"><img :src="good.picture" alt=""></RouterLink>
                 <div>
                   <p class="name ellipsis">{{ good.name }}</p>
                   <!-- 选择规格组件 -->
@@ -49,11 +48,11 @@
               <p>比加入时降价 <span class="red">&yen;{{ (good.price - good.nowPrice).toFixed(2) }}</span></p>
             </td>
             <td class="tc">
-              <Numbox :showLabel="false" v-model="good.count"/>
+              <Numbox v-model="good.count" :showLabel="false"/>
             </td>
             <td class="tc"><p class="f16 red">&yen;{{ (good.nowPrice * good.count).toFixed(2) }}</p></td>
             <td class="tc">
-              <p><a class="green" href="javascript:;">删除</a></p>
+              <p><a class="green" href="javascript:;" @click="delCart(good.skuId)">删除</a></p>
             </td>
           </tr>
           </tbody>
@@ -97,14 +96,20 @@ export default {
       // console.log(isSelAll)
       store.dispatch('cart/selAllAction', isSelAll)
     }
+    // 删除功能
+    const delCart = (skuId) => {
+      console.log('要删除商品sku的id值', skuId)
+      store.dispatch('cart/delCartAction', skuId)
+    }
     return {
       singleSel,
-      selAll
+      selAll,
+      delCart
     }
   }
 }
 </script>
-<style scoped lang="less">
+<style lang="less" scoped>
 .tc {
   text-align: center;
 
