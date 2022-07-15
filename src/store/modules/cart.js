@@ -30,6 +30,15 @@ export default {
         // 存在(获取当前存在的商品，将数量+1)
         state.list[index].count += SkuGood.count
       }
+    },
+    // 修改选中状态
+    // good当前勾选商品，sel当前商品勾选状态
+    singleSel (state, {
+      good,
+      sel
+    }) {
+      const currGood = state.list.find((item) => item.skuId === good.skuId)
+      currGood.selected = sel
     }
   },
   getters: {
@@ -59,14 +68,12 @@ export default {
   // 发送请求
   actions: {
     /**
-     *
      * @param {*} param0
      * @param {*} skuGood 当前加入购物车的sku组合商品
      * 购物车逻辑：
      * 问题?怎么判断是否登录
      * 1. 未登录（今天）
      * 数据存到vuex（不需要调用后台接口）
-     *
      * 2. 已经登录
      * 数据存到数据库（需要调用后台接口）
      */
@@ -82,6 +89,27 @@ export default {
         console.log('未登录')
         commit('addCart', SkuGood)
         return '加入购物车成功'
+      }
+    },
+    /*
+    * 商品单选
+   **/
+    singleSelAction ({
+      commit,
+      rootState
+    }, {
+      good,
+      sel
+    }) {
+      if (rootState.user.profile.token) {
+        // 已经登录
+        console.log('已经登录')
+      } else {
+        // 未登录
+        commit('singleSel', {
+          good,
+          sel
+        })
       }
     }
   }

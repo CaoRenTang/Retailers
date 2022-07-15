@@ -24,7 +24,10 @@
           <tbody>
           <tr v-for="good in effectiveList" :key="good.skuId">
             <td>
-              <XtxCheckbox v-model="good.selected"/>
+              <XtxCheckbox
+                :modelValue="good.selected"
+                @update:modelValue="singleSel(good,$event)"
+              />
             </td>
             <td>
               <div class="goods">
@@ -66,7 +69,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, useStore } from 'vuex'
 
 export default {
   name: 'XtxCartPage',
@@ -75,7 +78,18 @@ export default {
     ...mapGetters('cart', ['effectiveList', 'selectedList', 'allSelectedPrice', 'isAll'])
   },
   setup () {
-
+    const store = useStore()
+    // good当前勾选商品，sel当前商品勾选状态
+    const singleSel = (good, sel) => {
+      console.log('当前选中的商品信息', good, sel)
+      store.dispatch('cart/singleSelAction', {
+        good,
+        sel
+      })
+    }
+    return {
+      singleSel
+    }
   }
 }
 </script>
