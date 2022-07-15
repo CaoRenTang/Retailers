@@ -57,6 +57,7 @@ export default {
         // 未登录
         console.log('未登录')
         commit('addCart', SkuGood)
+        return '加入购物车成功'
       }
     }
   }

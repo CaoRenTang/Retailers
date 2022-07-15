@@ -101,7 +101,7 @@ export default {
     const buyNum = ref(1)
     const store = useStore()
     // 点击添加到购物车
-    const addCart = () => {
+    const addCart = async () => {
       /**
        * 1. 选中了有效的sku组合的商品信息
        * 2. 有效的sku组合的商品库存大于0
@@ -126,7 +126,11 @@ export default {
         isEffective: true, // 是否有效商品
         count: buyNum.value // 购买数量
       }
-      store.dispatch('cart/addCartAction', addGood)
+      const res = await store.dispatch('cart/addCartAction', addGood)
+      msg({
+        text: res,
+        type: 'success'
+      })
     }
     const getNum = (num) => {
       console.log('购买数量：', num)
