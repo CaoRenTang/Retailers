@@ -11,7 +11,7 @@
           <tr>
             <!-- 全选 -->
             <th width="120">
-              <XtxCheckbox>全选</XtxCheckbox>
+              <XtxCheckbox v-model="isAll">全选</XtxCheckbox>
             </th>
             <th width="400">商品信息</th>
             <th width="220">单价</th>
@@ -22,28 +22,29 @@
           </thead>
           <!-- 有效商品 -->
           <tbody>
-          <tr v-for="i in 3" :key="i">
+          <tr v-for="good in effectiveList" :key="good.skuId">
             <td>
-              <XtxCheckbox/>
+              <XtxCheckbox v-model="good.selected"/>
             </td>
             <td>
               <div class="goods">
-                <RouterLink to="/"><img src="https://yanxuan-item.nosdn.127.net/13ab302f8f2c954d873f03be36f8fb03.png"
+                <RouterLink to="/"><img :src="good.picture"
                                         alt=""></RouterLink>
                 <div>
-                  <p class="name ellipsis">和手足干裂说拜拜 ingrams手足皲裂修复霜</p>
+                  <p class="name ellipsis">{{ good.name }}</p>
                   <!-- 选择规格组件 -->
                 </div>
               </div>
             </td>
             <td class="tc">
-              <p>&yen;200.00</p>
-              <p>比加入时降价 <span class="red">&yen;20.00</span></p>
+              <!--              现价-->
+              <p>&yen;{{ good.nowPrice }}</p>
+              <p>比加入时降价 <span class="red">&yen;{{ good.price - good.nowPrice }}</span></p>
             </td>
             <td class="tc">
-              <Numbox :showLabel="false"/>
+              <Numbox :showLabel="false" v-model="good.count"/>
             </td>
-            <td class="tc"><p class="f16 red">&yen;200.00</p></td>
+            <td class="tc"><p class="f16 red">&yen;{{ good.nowPrice * good.count }}</p></td>
             <td class="tc">
               <p><a class="green" href="javascript:;">删除</a></p>
             </td>
@@ -54,8 +55,8 @@
       <!-- 操作栏 -->
       <div class="action">
         <div class="batch">
-          共 7 件商品，已选择 2 件，商品合计：
-          <span class="red">¥400</span>
+          共{{ effectiveList.length }}件商品，已选择{{ selectedList.length }}件，商品合计：
+          <span class="red">¥{{ allSelectedPrice }}</span>
         </div>
         <div class="total">
           <XtxButton type="primary">下单结算</XtxButton>
@@ -65,8 +66,17 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'XtxCartPage'
+  name: 'XtxCartPage',
+  // 通过计算属性映射vuex中的方法
+  computed: {
+    ...mapGetters('cart', ['effectiveList', 'selectedList', 'allSelectedPrice', 'isAll'])
+  },
+  setup () {
+
+  }
 }
 </script>
 <style scoped lang="less">

@@ -12,7 +12,7 @@
       </div>
       <div class="cart">
         <router-link class="curr" to="/cart">
-          <i class="iconfont icon-cart"></i><em>{{ $store.state.cart.list.length }}</em>
+          <i class="iconfont icon-cart"></i><em>{{ $store.getters['cart/effectiveList'].length }}</em>
         </router-link>
       </div>
     </div>
