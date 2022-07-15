@@ -32,6 +32,30 @@ export default {
       }
     }
   },
+  getters: {
+    // 计算有效商品列表 isEffective = true  filter
+    effectiveList (state) {
+      return state.list.filter((item) => item.isEffective)
+    },
+    // 已选中列表 selected = true
+    selectedList (state, getters) {
+      return getters.effectiveList.filter((item) => item.selected)
+    },
+    // 已选择列表总钱数  selectedList 中所有项的单价*数据进行叠加
+    allSelectedPrice (state, getters) {
+      // 总价
+      let total = 0
+      getters.selectedList.forEach((item) => {
+        // 累加(数量*单价)
+        total += item.nowPrice * item.count
+      })
+      return total
+    },
+    // 全选：有效列表中的seleted字段全为true 才为true
+    isAll (state, getters) {
+      return getters.effectiveList.every((item) => item.selected)
+    }
+  },
   // 发送请求
   actions: {
     /**
