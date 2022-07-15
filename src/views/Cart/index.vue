@@ -39,12 +39,12 @@
             <td class="tc">
               <!--              现价-->
               <p>&yen;{{ good.nowPrice }}</p>
-              <p>比加入时降价 <span class="red">&yen;{{ good.price - good.nowPrice }}</span></p>
+              <p>比加入时降价 <span class="red">&yen;{{ (good.price - good.nowPrice).toFixed(2) }}</span></p>
             </td>
             <td class="tc">
               <Numbox :showLabel="false" v-model="good.count"/>
             </td>
-            <td class="tc"><p class="f16 red">&yen;{{ good.nowPrice * good.count }}</p></td>
+            <td class="tc"><p class="f16 red">&yen;{{ (good.nowPrice * good.count).toFixed(2) }}</p></td>
             <td class="tc">
               <p><a class="green" href="javascript:;">删除</a></p>
             </td>
@@ -56,7 +56,7 @@
       <div class="action">
         <div class="batch">
           共{{ effectiveList.length }}件商品，已选择{{ selectedList.length }}件，商品合计：
-          <span class="red">¥{{ allSelectedPrice }}</span>
+          <span class="red">¥{{ allSelectedPrice.toFixed(2) }}</span>
         </div>
         <div class="total">
           <XtxButton type="primary">下单结算</XtxButton>
