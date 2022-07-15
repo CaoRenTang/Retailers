@@ -97,6 +97,8 @@ export default {
       // 选择的商品组合sku信息
       // console.log(selSku)
     }
+    // 购买数量
+    const buyNum = ref(1)
     const store = useStore()
     // 点击添加到购物车
     const addCart = () => {
@@ -109,11 +111,23 @@ export default {
       if (!currSku.value) return msg({ text: '请选择完整的商品规格' })
       // 判断库存数量
       if (goodDetail.value.inventory === 0) return msg({ text: '商品库存不足' })
-      console.log(currSku.value)
-      store.dispatch('cart/addCartAction')
+      // console.log(currSku.value)
+      // 结合后台定义商品
+      const addGood = {
+        id: goodDetail.value.id, // 商品id
+        name: goodDetail.value.name, // 商品名称
+        picture: goodDetail.value.mainPictures[0], // 商品图片
+        skuId: currSku.value.skuId, // sku组合id
+        price: currSku.value.oldPrice, // 原价
+        nowPrice: currSku.value.price, // 现价
+        attrsText: currSku.value.specsText, // 规格文案
+        stock: currSku.value.inventory, // 库存
+        selected: true, // 商品加入购物车是否选中
+        isEffective: true, // 是否有效商品
+        count: buyNum.value // 购买数量
+      }
+      store.dispatch('cart/addCartAction', addGood)
     }
-    // 购买数量
-    const buyNum = ref(1)
     const getNum = (num) => {
       console.log('购买数量：', num)
       buyNum.value = num
