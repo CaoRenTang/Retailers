@@ -39,6 +39,13 @@ export default {
     }) {
       const currGood = state.list.find((item) => item.skuId === good.skuId)
       currGood.selected = sel
+    },
+    // 全选，遍历数组中所有的单选状态
+    selAll (state, isSelAll) {
+      state.list.forEach((item) => {
+        // 每一个选择框和全选框选择状态保持一致
+        item.selected = isSelAll
+      })
     }
   },
   getters: {
@@ -110,6 +117,21 @@ export default {
           good,
           sel
         })
+      }
+    },
+    /*
+    * 全选实现
+    */
+    selAllAction ({
+      commit,
+      rootState
+    }, isSelAll) {
+      if (rootState.user.profile.token) {
+        // 已经登录
+        console.log('已经登录')
+      } else {
+        // 未登录
+        commit('selAll', isSelAll)
       }
     }
   }

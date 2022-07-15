@@ -11,7 +11,11 @@
           <tr>
             <!-- 全选 -->
             <th width="120">
-              <XtxCheckbox v-model="isAll">全选</XtxCheckbox>
+              <XtxCheckbox
+                :modelValue="isAll"
+                @update:modelValue="selAll($event)"
+              >全选
+              </XtxCheckbox>
             </th>
             <th width="400">商品信息</th>
             <th width="220">单价</th>
@@ -80,6 +84,7 @@ export default {
   setup () {
     const store = useStore()
     // good当前勾选商品，sel当前商品勾选状态
+    // 单选实现
     const singleSel = (good, sel) => {
       console.log('当前选中的商品信息', good, sel)
       store.dispatch('cart/singleSelAction', {
@@ -87,8 +92,14 @@ export default {
         sel
       })
     }
+    // 全选和取消全选
+    const selAll = (isSelAll) => {
+      // console.log(isSelAll)
+      store.dispatch('cart/selAllAction', isSelAll)
+    }
     return {
-      singleSel
+      singleSel,
+      selAll
     }
   }
 }
