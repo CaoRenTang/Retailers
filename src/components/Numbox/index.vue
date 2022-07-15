@@ -1,6 +1,6 @@
 <template>
   <div class="xtx-numbox">
-    <div class="label">数量</div>
+    <div class="label" v-if="showLabel">数量</div>
     <div class="numbox">
       <a href="javascript:;" @click="sub">-</a>
       <input type="text" readonly :value="num">
@@ -15,6 +15,10 @@ import { msg } from 'rabbit-ui-core'
 export default {
   name: 'XtxNumbox',
   props: {
+    showLabel: {
+      type: Boolean,
+      default: true
+    },
     modelValue: {
       type: Number,
       default: 1

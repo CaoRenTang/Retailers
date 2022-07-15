@@ -11,6 +11,8 @@ const Category = () => import('@/views/Category')
 const Goods = () => import('@/views/Goods/index')
 // 登录
 const Login = () => import('@/views/Login')
+// 购物车
+const Cart = () => import('@/views/Cart')
 const routes = [
   {
     path: '/',
@@ -24,7 +26,12 @@ const routes = [
     }, {
       path: '/goods/:id',
       component: Goods
-    }]
+    },
+    {
+      path: '/cart',
+      component: Cart
+    }
+    ]
   },
   {
     path: '/login',
