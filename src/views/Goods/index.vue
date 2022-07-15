@@ -23,6 +23,14 @@
           <!-- 新增 sku -->
           <XtxSku :goods="goodDetail" @change="getSku"/>
           <Numbox :max="goodDetail.inventory" v-model="buyNum"/>
+          <!-- 加入购物车 -->
+          <XtxButton
+            @click="addCart"
+            style="margin-top: 20px"
+            type="primary"
+          >
+            加入购物车
+          </XtxButton>
         </div>
       </div>
       <!-- 商品详情 -->
@@ -46,6 +54,7 @@ import { useRoute } from 'vue-router'
 import GoodsSales from './components/goods-sales'
 import GoodsName from './components/goods-name'
 import XtxNumbox from '@/components/Numbox'
+import { msg } from 'rabbit-ui-core'
 
 export default {
   name: 'XtxGoodsPage',
@@ -68,12 +77,29 @@ export default {
     onMounted(() => {
       getGoodDetails(route.params.id)
     })
+    // 保存选择的商品组合sku信息
+    const currSku = ref(null)
+    // 当前选择的商品
     const getSku = (selSku) => {
       if (selSku.price) {
         goodDetail.value.price = selSku.price
         goodDetail.value.oldPrice = selSku.oldPrice
+        // 库存大于0才能购买
         goodDetail.value.inventory = selSku.inventory
+        // 存储当前选中的sku的组合信息
+        currSku.value = selSku
+      } else {
+        // 清空上次保存的选中的sku组合信息
+        currSku.value = null
       }
+    }
+    // 点击添加到购物车
+    const addCart = () => {
+      // 判断是否选择了商品规格
+      if (!currSku.value) return msg({ text: '请选择完整的商品规格' })
+      // 判断库存数量
+      if (goodDetail.value.inventory === 0) return msg({ text: '商品库存不足' })
+      console.log(currSku.value)
     }
     // 购买数量
     const buyNum = ref(1)
@@ -86,7 +112,8 @@ export default {
       goodDetail,
       getSku,
       getNum,
-      buyNum
+      buyNum,
+      addCart
     }
   }
 }

@@ -19,7 +19,6 @@ export default {
     setProfile (state, profile) {
       state.profile = profile
     },
-
     delProfile (state) {
       state.profile = {}
     }
@@ -29,6 +28,7 @@ export default {
     async loginAction ({ commit }, formData) {
       const { data } = await userAccountLoginAPI(formData)
       console.log('登录信息', data)
+      // console.log('-------', xtc)
       commit('setProfile', data)
     },
     // 退出方法
