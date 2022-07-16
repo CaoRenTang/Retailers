@@ -1,21 +1,18 @@
 /*
 * 存储购物车商品列表数据
 */
-import { findCartListAPI, insertCartAPI, mergeLocalCartAPI } from '@/api/cart'
+import { deleteCartAPI, findCartListAPI, insertCartAPI, mergeLocalCartAPI } from '@/api/cart'
 
 export default {
   // 加锁避免和其他模块命名冲突
-  namespaced: true,
-  // 定义变量
+  namespaced: true, // 定义变量
   state: () => ({
     list: []
-  }),
-  // 修改变量
+  }), // 修改变量
   mutations: {
     setList (state, list) {
       state.list = list
-    },
-    /**
+    }, /**
      * 判断之前是否加入过该商品？（排重）
      * 1. 加入过：数量的增加
      * 2. 没有加入过：新增
@@ -35,8 +32,7 @@ export default {
         // 存在(获取当前存在的商品，将数量+1)
         state.list[index].count += SkuGood.count
       }
-    },
-    // 修改选中状态
+    }, // 修改选中状态
     // good当前勾选商品，sel当前商品勾选状态
     singleSel (state, {
       good,
@@ -44,22 +40,19 @@ export default {
     }) {
       const currGood = state.list.find((item) => item.skuId === good.skuId)
       currGood.selected = sel
-    },
-    // 全选，遍历数组中所有的单选状态
+    }, // 全选，遍历数组中所有的单选状态
     selAll (state, isSelAll) {
       state.list.forEach((item) => {
         // 每一个选择框和全选框选择状态保持一致
         item.selected = isSelAll
       })
-    },
-    // 删除方法
+    }, // 删除方法
     delCart (state, skuId) {
       // 数组的splice删除
       // state.list.splice(state.list.findIndex(item => item.skuId === skuId), 1)
       // 数组的过滤方法删除
       state.list = state.list.filter(item => item.skuId !== skuId)
-    },
-    // 数量修改方法
+    }, // 数量修改方法
     changeCart (state, {
       good,
       count
@@ -72,12 +65,10 @@ export default {
     // 计算有效商品列表 isEffective = true  filter
     effectiveList (state) {
       return state.list.filter((item) => item.isEffective)
-    },
-    // 已选中列表 selected = true
+    }, // 已选中列表 selected = true
     selectedList (state, getters) {
       return getters.effectiveList.filter((item) => item.selected)
-    },
-    // 已选择列表总钱数  selectedList 中所有项的单价*数据进行叠加
+    }, // 已选择列表总钱数  selectedList 中所有项的单价*数据进行叠加
     allSelectedPrice (state, getters) {
       // 总价
       let total = 0
@@ -86,13 +77,11 @@ export default {
         total += item.nowPrice * item.count
       })
       return total
-    },
-    // 全选：有效列表中的seleted字段全为true 才为true
+    }, // 全选：有效列表中的seleted字段全为true 才为true
     isAll (state, getters) {
       return getters.effectiveList.every((item) => item.selected)
     }
-  },
-  // 发送请求
+  }, // 发送请求
   actions: {
     // 合并本地购物车
     async mergeCartAction ({
@@ -115,8 +104,7 @@ export default {
       }
       // 调用查询方法
       dispatch('getCartAction')
-    },
-    // 从数据库查询当前登录人购物车数据
+    }, // 从数据库查询当前登录人购物车数据
     async getCartAction ({ commit }) {
       const { data } = await findCartListAPI()
       console.log('登录人的购物车列表：', data)
@@ -139,7 +127,7 @@ export default {
     }, SkuGood) {
       if (rootState.user.profile.token) {
         // 已经登录
-        console.log('已经登录')
+        // console.log('已经登录')
         // 1.调用接口加入购物车
         await insertCartAPI(SkuGood)
         // 2.从数据库查询最新的商品
@@ -150,8 +138,7 @@ export default {
         commit('addCart', SkuGood)
         return '加入购物车成功'
       }
-    },
-    /*
+    }, /*
     * 商品单选
    **/
     singleSelAction ({
@@ -171,8 +158,7 @@ export default {
           sel
         })
       }
-    },
-    /*
+    }, /*
     * 全选实现
     */
     selAllAction ({
@@ -186,23 +172,26 @@ export default {
         // 未登录
         commit('selAll', isSelAll)
       }
-    },
-    /*
+    }, /*
     * 删除方法
     * */
-    delCartAction ({
+    async delCartAction ({
       commit,
-      rootState
+      rootState,
+      dispatch
     }, skuId) {
       if (rootState.user.profile.token) {
         // 已经登录
         console.log('已经登录')
+        // 调用删除接口
+        await deleteCartAPI([skuId])
+        // 重新刷新列表
+        dispatch('getCartAction')
       } else {
         // 未登录,调用删除方法
         commit('delCart', skuId)
       }
-    },
-    /*
+    }, /*
     *修改异步方法
      */
     editCartAction ({
