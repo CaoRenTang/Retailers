@@ -49,7 +49,10 @@ export default {
     },
     // 删除方法
     delCart (state, skuId) {
-      state.list.splice(state.list.findIndex(item => item.skuId === skuId), 1)
+      // 数组的splice删除
+      // state.list.splice(state.list.findIndex(item => item.skuId === skuId), 1)
+      // 数组的过滤方法删除
+      state.list = state.list.filter(item => item.skuId !== skuId)
     },
     // 数量修改方法
     changeCart (state, {
