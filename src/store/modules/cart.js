@@ -1,6 +1,8 @@
 /*
 * 存储购物车商品列表数据
 */
+import { mergeLocalCartAPI } from '@/api/cart'
+
 export default {
   // 加锁避免和其他模块命名冲突
   namespaced: true,
@@ -89,6 +91,23 @@ export default {
   },
   // 发送请求
   actions: {
+    // 合并本地购物车
+    async mergeCartAction ({ state }) {
+      // 本地购物车数据为零无需合并
+      if (state.list.length > 0) {
+        // 后台要求传递三个参数，用数组的map方法生成新的数组，将新数组传递
+        const mergeDate = state.list.map((item) => {
+          return {
+            skuId: item.skuId,
+            selected: item.selected,
+            count: item.count
+          }
+        })
+        console.log('后台需要合并的购物车列表数据', mergeDate)
+        // 调用合并购物车接口方法，将数据对象传递
+        await mergeLocalCartAPI(mergeDate)
+      }
+    },
     /**
      * @param {*} param0
      * @param {*} skuGood 当前加入购物车的sku组合商品

@@ -48,6 +48,7 @@
               <p>比加入时降价 <span class="red">&yen;{{ (good.price - good.nowPrice).toFixed(2) }}</span></p>
             </td>
             <td class="tc">
+              <!--数量组件-->
               <Numbox
                 :modelValue="good.count"
                 :showLabel="false"
@@ -105,7 +106,7 @@ export default {
       console.log('要删除商品sku的id值', skuId)
       store.dispatch('cart/delCartAction', skuId)
     }
-    // 修改数量
+    // 修改数量，count修改数量形参
     const editCount = (good, count) => {
       console.log('要修改的商品名:' + good.name + '商品数量修改为:' + count)
       store.dispatch('cart/editCartAction', {
