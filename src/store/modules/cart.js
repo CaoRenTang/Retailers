@@ -1,7 +1,14 @@
 /*
 * 存储购物车商品列表数据
 */
-import { deleteCartAPI, findCartListAPI, insertCartAPI, mergeLocalCartAPI } from '@/api/cart'
+import {
+  checkAllCartAPI,
+  deleteCartAPI,
+  findCartListAPI,
+  insertCartAPI,
+  mergeLocalCartAPI,
+  updateCartAPI
+} from '@/api/cart'
 
 export default {
   // 加锁避免和其他模块命名冲突
@@ -141,9 +148,10 @@ export default {
     }, /*
     * 商品单选
    **/
-    singleSelAction ({
+    async singleSelAction ({
       commit,
-      rootState
+      rootState,
+      dispatch
     }, {
       good,
       sel
@@ -151,6 +159,12 @@ export default {
       if (rootState.user.profile.token) {
         // 已经登录
         console.log('已经登录')
+        await updateCartAPI({
+          ...good,
+          selected: sel
+        })
+        // 重新刷新列表
+        dispatch('getCartAction')
       } else {
         // 未登录
         commit('singleSel', {
@@ -161,13 +175,22 @@ export default {
     }, /*
     * 全选实现
     */
-    selAllAction ({
+    async selAllAction ({
       commit,
-      rootState
+      rootState,
+      dispatch,
+      getters
     }, isSelAll) {
       if (rootState.user.profile.token) {
         // 已经登录
         console.log('已经登录')
+        const ids = getters.effectiveList.map(item => item.skuId)
+        await checkAllCartAPI({
+          selected: isSelAll,
+          ids
+        })
+        // 重新刷新列表
+        dispatch('getCartAction')
       } else {
         // 未登录
         commit('selAll', isSelAll)
@@ -194,9 +217,10 @@ export default {
     }, /*
     *修改异步方法
      */
-    editCartAction ({
+    async editCartAction ({
       commit,
-      rootState
+      rootState,
+      dispatch
     }, {
       good,
       count
@@ -204,6 +228,12 @@ export default {
       if (rootState.user.profile.token) {
         // 已经登录
         console.log('已经登录')
+        await updateCartAPI({
+          ...good,
+          count
+        })
+        // 重新刷新列表
+        dispatch('getCartAction')
       } else {
         // 未登录,调用修改方法
         commit('changeCart', {
