@@ -1,7 +1,7 @@
 /*
 * 存储购物车商品列表数据
 */
-import { findCartListAPI, mergeLocalCartAPI } from '@/api/cart'
+import { findCartListAPI, insertCartAPI, mergeLocalCartAPI } from '@/api/cart'
 
 export default {
   // 加锁避免和其他模块命名冲突
@@ -132,13 +132,18 @@ export default {
      * 2. 已经登录
      * 数据存到数据库（需要调用后台接口）
      */
-    addCartAction ({
+    async addCartAction ({
       commit,
-      rootState
+      rootState,
+      dispatch
     }, SkuGood) {
       if (rootState.user.profile.token) {
         // 已经登录
         console.log('已经登录')
+        // 1.调用接口加入购物车
+        await insertCartAPI(SkuGood)
+        // 2.从数据库查询最新的商品
+        dispatch('getCartAction')
       } else {
         // 未登录
         console.log('未登录')

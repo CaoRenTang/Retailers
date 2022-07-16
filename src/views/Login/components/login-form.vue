@@ -125,7 +125,7 @@ export default {
           text: '登录成功'
         })
         // 触发action函数进行购物车合并
-        await store.dispatch('cart/mergeCartAction')
+        store.dispatch('cart/mergeCartAction')
         // 判断是否跳回上一次访问的页面（401），正常访问跳转回首页
         // route.query.backPath为上一次登录返回的路由参数路径
         await router.replace(route.query.backPath || '/')
