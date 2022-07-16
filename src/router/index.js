@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import Pay from '@/views/Member/pay'
 // import HomeView from '../views/HomeView.vue'
 // 导入路由页面（懒加载形式）
 // 父页面
@@ -15,6 +16,8 @@ const Login = () => import('@/views/Login')
 const Cart = () => import('@/views/Cart')
 // 订单页
 const Order = () => import('@/views/order')
+// 支付页面
+const Payment = () => import('@/views/Member/pay')
 const routes = [
   {
     path: '/',
@@ -36,6 +39,10 @@ const routes = [
     {
       path: '/order',
       component: Order
+    },
+    {
+      path: '/pay',
+      component: Payment
     }
     ]
   },
