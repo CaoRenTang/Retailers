@@ -34,6 +34,8 @@ export default {
     // 退出方法
     loginOutAction ({ commit }) {
       commit('delProfile')
+      // 退出清空购物车数据
+      commit('cart/setList', [], { root: true })
     }
   }
 

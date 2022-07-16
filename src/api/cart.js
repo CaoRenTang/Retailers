@@ -10,3 +10,10 @@ import request from '@/utils/request'
 export const mergeLocalCartAPI = (cartList) => {
   return request('/member/cart/merge', 'post', cartList)
 }
+/**
+ * 获取登录后的购物车列表
+ * @returns Promise
+ */
+export const findCartListAPI = () => {
+  return request('/member/cart', 'get')
+}

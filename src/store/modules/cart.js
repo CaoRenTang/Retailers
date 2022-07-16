@@ -1,7 +1,7 @@
 /*
 * 存储购物车商品列表数据
 */
-import { mergeLocalCartAPI } from '@/api/cart'
+import { findCartListAPI, mergeLocalCartAPI } from '@/api/cart'
 
 export default {
   // 加锁避免和其他模块命名冲突
@@ -12,6 +12,9 @@ export default {
   }),
   // 修改变量
   mutations: {
+    setList (state, list) {
+      state.list = list
+    },
     /**
      * 判断之前是否加入过该商品？（排重）
      * 1. 加入过：数量的增加
@@ -92,7 +95,10 @@ export default {
   // 发送请求
   actions: {
     // 合并本地购物车
-    async mergeCartAction ({ state }) {
+    async mergeCartAction ({
+      state,
+      dispatch
+    }) {
       // 本地购物车数据为零无需合并
       if (state.list.length > 0) {
         // 后台要求传递三个参数，用数组的map方法生成新的数组，将新数组传递
@@ -107,6 +113,14 @@ export default {
         // 调用合并购物车接口方法，将数据对象传递
         await mergeLocalCartAPI(mergeDate)
       }
+      // 调用查询方法
+      dispatch('getCartAction')
+    },
+    // 从数据库查询当前登录人购物车数据
+    async getCartAction ({ commit }) {
+      const { data } = await findCartListAPI()
+      console.log('登录人的购物车列表：', data)
+      commit('setList', data)
     },
     /**
      * @param {*} param0
