@@ -106,6 +106,8 @@
 <script>
 import { onMounted, ref } from 'vue'
 import { createOrderAPI, findCheckoutInfoAPI } from '@/api/order'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'XtxPayCheckoutPage',
@@ -123,9 +125,28 @@ export default {
       getOrderInfo()
     })
     // 下单支付
+    const store = useStore()
+    const router = useRouter()
     const submitOrder = async () => {
       // 创建订单参数
-      const { data } = await createOrderAPI()
+      const data = {
+        deliveryTimeType: 1,
+        payType: 1,
+        buyerMessage: '',
+        addressId: '1547932405858308098', // 地址id(测试)
+        goods: []
+      }
+      data.goods = orderInfo.value.goods.map(item => {
+        return {
+          skuId: item.skuId,
+          count: item.count
+        }
+      })
+      const { data: res } = await createOrderAPI(data)
+      // 刷新购物车
+      store.dispatch('cart/getCartAction')
+      // 跳转支付页面
+      router.push(`/pay?id=${res.id}`)
     }
     return {
       orderInfo,
