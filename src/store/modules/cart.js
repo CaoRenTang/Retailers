@@ -49,7 +49,15 @@ export default {
     },
     // 删除方法
     delCart (state, skuId) {
-      state.list.splice(state.list.findIndex(item => item.id === skuId), 1)
+      state.list.splice(state.list.findIndex(item => item.skuId === skuId), 1)
+    },
+    // 数量修改方法
+    changeCart (state, {
+      good,
+      count
+    }) {
+      const item = state.list.find(item => item.skuId === good.skuId)
+      item.count = count
     }
   },
   getters: {
@@ -151,6 +159,27 @@ export default {
       } else {
         // 未登录,调用删除方法
         commit('delCart', skuId)
+      }
+    },
+    /*
+    *修改异步方法
+     */
+    editCartAction ({
+      commit,
+      rootState
+    }, {
+      good,
+      count
+    }) {
+      if (rootState.user.profile.token) {
+        // 已经登录
+        console.log('已经登录')
+      } else {
+        // 未登录,调用修改方法
+        commit('changeCart', {
+          good,
+          count
+        })
       }
     }
   }

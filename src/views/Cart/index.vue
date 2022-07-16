@@ -48,7 +48,11 @@
               <p>比加入时降价 <span class="red">&yen;{{ (good.price - good.nowPrice).toFixed(2) }}</span></p>
             </td>
             <td class="tc">
-              <Numbox v-model="good.count" :showLabel="false"/>
+              <Numbox
+                :modelValue="good.count"
+                :showLabel="false"
+                @update:modelValue="editCount(good,$event)"
+              />
             </td>
             <td class="tc"><p class="f16 red">&yen;{{ (good.nowPrice * good.count).toFixed(2) }}</p></td>
             <td class="tc">
@@ -101,10 +105,19 @@ export default {
       console.log('要删除商品sku的id值', skuId)
       store.dispatch('cart/delCartAction', skuId)
     }
+    // 修改数量
+    const editCount = (good, count) => {
+      console.log('要修改的商品名:' + good.name + '商品数量修改为:' + count)
+      store.dispatch('cart/editCartAction', {
+        good,
+        count
+      })
+    }
     return {
       singleSel,
       selAll,
-      delCart
+      delCart,
+      editCount
     }
   }
 }
