@@ -7,15 +7,25 @@
         <XtxBreadItem>支付订单</XtxBreadItem>
       </XtxBread>
       <!-- 付款信息 -->
-      <div class="pay-info">
+      <!-- 付款信息 -->
+      <div class="pay-info" v-if="payInfo">
         <span class="icon iconfont icon-queren2"></span>
-        <div class="tip">
+        <div class="tip" v-if="payInfo.orderState === 1">
           <p>订单提交成功！请尽快完成支付。</p>
-          <p>支付还剩 <span>24分59秒</span>, 超时后将取消订单</p>
+          <p>
+            支付还剩 <span>{{ countTimeText }}</span
+          >, 超时后将取消订单
+          </p>
+        </div>
+        <div class="tip" v-if="payInfo.orderState === 2">
+          <p>订单已支付！</p>
+        </div>
+        <div class="tip" v-if="payInfo.orderState === 6">
+          <p>订单支付超时！</p>
         </div>
         <div class="amount">
           <span>应付总额：</span>
-          <span>¥5673.00</span>
+          <span>¥{{ payInfo.payMoney }}</span>
         </div>
       </div>
       <!-- 付款方式 -->
@@ -39,8 +49,34 @@
   </div>
 </template>
 <script>
+import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { findOrderAPI } from '@/api/order'
+import { useCountDown } from 'rabbit-ui-core'
+
 export default {
-  name: 'XtxPayPage'
+  name: 'XtxPayPage',
+  setup () {
+    const route = useRoute()
+    const payInfo = ref({})
+    const {
+      countTimeText,
+      start
+    } = useCountDown()
+    const getOrderInfo = async () => {
+      const { data } = await findOrderAPI(route.query.id)
+      console.log('支付信息', data)
+      payInfo.value = data
+      payInfo.value.orderState === 1 && start(payInfo.value.countdown)
+    }
+    onMounted(() => {
+      getOrderInfo()
+    })
+    return {
+      payInfo,
+      countTimeText
+    }
+  }
 }
 </script>
 <style scoped lang="less">
