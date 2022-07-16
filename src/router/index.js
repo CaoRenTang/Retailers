@@ -13,6 +13,8 @@ const Goods = () => import('@/views/Goods/index')
 const Login = () => import('@/views/Login')
 // 购物车
 const Cart = () => import('@/views/Cart')
+// 订单页
+const Order = () => import('@/views/order')
 const routes = [
   {
     path: '/',
@@ -30,6 +32,10 @@ const routes = [
     {
       path: '/cart',
       component: Cart
+    },
+    {
+      path: '/order',
+      component: Order
     }
     ]
   },

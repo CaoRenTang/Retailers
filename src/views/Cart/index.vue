@@ -70,7 +70,7 @@
           <span class="red">¥{{ allSelectedPrice.toFixed(2) }}</span>
         </div>
         <div class="total">
-          <XtxButton type="primary">下单结算</XtxButton>
+          <XtxButton type="primary" @click="pay">下单结算</XtxButton>
         </div>
       </div>
     </div>
@@ -78,6 +78,8 @@
 </template>
 <script>
 import { mapGetters, useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { msg } from 'rabbit-ui-core'
 
 export default {
   name: 'XtxCartPage',
@@ -114,11 +116,25 @@ export default {
         count
       })
     }
+    // 点击下单，跳转订单支付页面
+    const router = useRouter()
+    const pay = () => {
+      // 判断登录和至少选择一件商品才能下单
+      if (!store.state.user.profile.token) {
+        return msg({ text: '请先登录，再下单' })
+      }
+      if (store.getters['cart/selectedList'].length === 0) {
+        return msg({ text: '请至少选择一件商品，才能下单' })
+      }
+      // 执行下单跳转
+      router.push('/order')
+    }
     return {
       singleSel,
       selAll,
       delCart,
-      editCount
+      editCount,
+      pay
     }
   }
 }
